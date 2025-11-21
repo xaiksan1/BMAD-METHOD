@@ -1,0 +1,435 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://alexandria.world-lab/schemas/bmad-workflow-v2.0.json",
+  "title": "BMAD v2.0 Workflow Schema",
+  "description": "Enhanced workflow orchestration schema for BMAD Method v2.0 - Time Manipulation Edition",
+  "type": "object",
+  "required": ["workflow_name", "workflow_version", "start_task", "tasks"],
+  "properties": {
+    "workflow_name": {
+      "type": "string",
+      "description": "Unique identifier for the workflow",
+      "pattern": "^[a-z0-9-]+$",
+      "examples": ["bmad-party-recursive", "dwallstreet-pipeline", "repository-enhancement-loop"]
+    },
+    "workflow_description": {
+      "type": "string",
+      "description": "Human-readable description of workflow purpose and outcomes"
+    },
+    "workflow_version": {
+      "type": "string",
+      "description": "Semantic version of the workflow",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "examples": ["2.0.0", "1.0.0", "0.1.0"]
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Optional workflow metadata for tracking and discovery",
+      "properties": {
+        "author": {
+          "type": "string",
+          "description": "Workflow creator"
+        },
+        "created_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Creation date (ISO 8601)"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Tags for categorization and search"
+        },
+        "time_compression_ratio": {
+          "type": "number",
+          "description": "Expected AI time / human time ratio (e.g., 175200 = 175,200x compression)",
+          "minimum": 1
+        },
+        "estimated_human_time": {
+          "type": "string",
+          "description": "Expected duration for human (e.g., '2 hours', '30 minutes')"
+        },
+        "estimated_ai_time": {
+          "type": "string",
+          "description": "Equivalent AI processing time (e.g., '40 years', '6 months')"
+        },
+        "value_potential": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "very_high", "billions", "priceless"],
+          "description": "Expected value generation potential"
+        }
+      }
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Global workflow configuration parameters",
+      "properties": {
+        "timeout": {
+          "type": "integer",
+          "description": "Global timeout in seconds (0 = no timeout)",
+          "minimum": 0,
+          "default": 0
+        },
+        "max_retries": {
+          "type": "integer",
+          "description": "Default max retries for all tasks",
+          "minimum": 0,
+          "default": 3
+        },
+        "backoff_strategy": {
+          "type": "string",
+          "enum": ["linear", "exponential", "fibonacci", "none"],
+          "description": "Default backoff strategy for retries",
+          "default": "exponential"
+        },
+        "party_mode": {
+          "type": "boolean",
+          "description": "Enable BMAD Party multi-LLM recursive mode",
+          "default": false
+        },
+        "llm_participants": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "LLM models to include in party mode",
+          "examples": [["claude-3-opus", "gpt-4", "gemini-pro"]]
+        },
+        "time_manipulation_enabled": {
+          "type": "boolean",
+          "description": "Enable time compression tracking and optimization",
+          "default": true
+        },
+        "auto_classify": {
+          "type": "boolean",
+          "description": "Auto-classify outputs to Notion/tracking systems",
+          "default": true
+        },
+        "notion_database_id": {
+          "type": "string",
+          "description": "Notion database ID for auto-classification"
+        }
+      },
+      "additionalProperties": true
+    },
+    "start_task": {
+      "type": "string",
+      "description": "Task ID to execute first (entry point)"
+    },
+    "tasks": {
+      "type": "array",
+      "description": "List of workflow tasks in execution order",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "action"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique task identifier",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable task name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed task description and purpose"
+          },
+          "action": {
+            "type": "string",
+            "description": "Action type to execute",
+            "enum": [
+              "llm_conversation",
+              "file_operation",
+              "code_generation",
+              "code_analysis",
+              "test_execution",
+              "api_call",
+              "subprocess",
+              "conditional_branch",
+              "parallel_execution",
+              "wait_for_input",
+              "notification",
+              "data_transformation",
+              "pattern_discovery",
+              "agent_orchestration",
+              "time_compression",
+              "custom"
+            ]
+          },
+          "inputs": {
+            "type": "object",
+            "description": "Input parameters for the task",
+            "additionalProperties": true
+          },
+          "outputs": {
+            "type": "object",
+            "description": "Expected output structure",
+            "additionalProperties": true
+          },
+          "input_mapping": {
+            "type": "object",
+            "description": "Map previous task outputs to current task inputs",
+            "additionalProperties": {
+              "type": "string",
+              "description": "JSONPath expression to extract value from previous tasks (e.g., '$.task1.outputs.result')"
+            }
+          },
+          "output_mapping": {
+            "type": "object",
+            "description": "Transform task outputs before passing to next task",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "from": {
+                  "type": "string",
+                  "description": "Source field in task output"
+                },
+                "to": {
+                  "type": "string",
+                  "description": "Destination field for next task"
+                },
+                "transform": {
+                  "type": "string",
+                  "enum": ["none", "json_parse", "json_stringify", "base64_encode", "base64_decode", "markdown_to_html", "extract_code_blocks"],
+                  "default": "none"
+                }
+              }
+            }
+          },
+          "timeout": {
+            "type": "integer",
+            "description": "Task-specific timeout in seconds (overrides global)",
+            "minimum": 0
+          },
+          "retry_policy": {
+            "type": "object",
+            "description": "Task-specific retry configuration",
+            "properties": {
+              "max_retries": {
+                "type": "integer",
+                "description": "Maximum retry attempts",
+                "minimum": 0
+              },
+              "backoff_strategy": {
+                "type": "string",
+                "enum": ["linear", "exponential", "fibonacci", "none"],
+                "description": "Delay strategy between retries"
+              },
+              "retry_on": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Error types/codes to retry on",
+                "examples": [["timeout", "rate_limit", "network_error"]]
+              },
+              "default_retry_policy": {
+                "type": "boolean",
+                "description": "Use workflow global retry policy",
+                "default": true
+              }
+            }
+          },
+          "next_task": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "Unconditional next task ID"
+              },
+              {
+                "type": "object",
+                "description": "Conditional routing based on task output",
+                "required": ["default"],
+                "properties": {
+                  "default": {
+                    "type": "string",
+                    "description": "Default next task if no condition matches"
+                  },
+                  "conditions": {
+                    "type": "array",
+                    "description": "Conditional branches",
+                    "items": {
+                      "type": "object",
+                      "required": ["condition", "task_id"],
+                      "properties": {
+                        "condition": {
+                          "type": "string",
+                          "description": "Boolean expression using outputs (e.g., 'outputs.success === true')"
+                        },
+                        "task_id": {
+                          "type": "string",
+                          "description": "Task to execute if condition is true"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "type": "array",
+                "description": "Parallel execution of multiple next tasks",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "on_success": {
+            "type": "object",
+            "description": "Actions to perform on successful task completion",
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": ["continue", "notify", "log", "save_state", "trigger_webhook", "update_notion"],
+                "description": "Action to perform on success"
+              },
+              "params": {
+                "type": "object",
+                "description": "Parameters for the success action",
+                "additionalProperties": true
+              }
+            }
+          },
+          "on_failure": {
+            "type": "object",
+            "description": "Actions to perform on task failure (after retries exhausted)",
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": ["abort", "continue", "fallback_task", "notify", "log"],
+                "description": "Action to perform on failure",
+                "default": "abort"
+              },
+              "fallback_task": {
+                "type": "string",
+                "description": "Task ID to execute as fallback"
+              },
+              "params": {
+                "type": "object",
+                "description": "Parameters for the failure action",
+                "additionalProperties": true
+              }
+            }
+          },
+          "on_error": {
+            "type": "object",
+            "description": "Error handling configuration (before retries)",
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": ["retry", "skip", "fallback", "abort"],
+                "description": "How to handle errors",
+                "default": "retry"
+              },
+              "next_task": {
+                "type": "string",
+                "description": "Alternative task to execute on error"
+              }
+            }
+          },
+          "parallel": {
+            "type": "boolean",
+            "description": "Execute this task in parallel with siblings (if next_task is array)",
+            "default": false
+          },
+          "wait_for": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Task IDs that must complete before this task starts"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Tags for filtering and organization"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional task metadata",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "error_handlers": {
+      "type": "object",
+      "description": "Global error handling strategies",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "error_type": {
+            "type": "string",
+            "description": "Error type to handle"
+          },
+          "action": {
+            "type": "string",
+            "enum": ["retry", "skip", "fallback", "abort", "notify"]
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "hooks": {
+      "type": "object",
+      "description": "Lifecycle hooks for workflow events",
+      "properties": {
+        "on_start": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "action": {
+                "type": "string"
+              },
+              "params": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        "on_complete": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "action": {
+                "type": "string"
+              },
+              "params": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        "on_abort": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "action": {
+                "type": "string"
+              },
+              "params": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
