@@ -19,7 +19,7 @@ metadata:
     - recursive
     - pattern-discovery
     - exponential-learning
-  time_compression_ratio: 175200  # 1 min human = ~2 years AI output
+  time_compression_ratio: 175200 # 1 min human = ~2 years AI output
   estimated_human_time: "5 minutes"
   estimated_ai_time: "10 years equivalent"
   value_potential: "billions"
@@ -29,27 +29,27 @@ metadata:
 # ====================================================================
 parameters:
   # Timeouts
-  timeout: 0  # No global timeout (let tasks run)
-  
+  timeout: 0 # No global timeout (let tasks run)
+
   # Retry configuration
   max_retries: 3
   backoff_strategy: exponential
-  
+
   # BMAD Party configuration
   party_mode: true
   llm_participants:
     - claude-3-opus
     - gpt-4-turbo
     - gemini-1.5-pro
-  
+
   # Time manipulation
   time_manipulation_enabled: true
-  compression_target_ratio: 100000  # Aim for 100,000x compression
-  
+  compression_target_ratio: 100000 # Aim for 100,000x compression
+
   # Auto-classification
   auto_classify: true
   notion_database_id: "{{ env.NOTION_WORLD_LAB_DB }}"
-  
+
   # Custom parameters
   repository_path: "{{ env.PWD }}"
   output_directory: ".bmad/experiments/{{ workflow.run_id }}"
@@ -150,12 +150,12 @@ tasks:
     inputs:
       prompt: |
         Repository analysis complete. Complexity score: {{ context.complexity_score }}/10
-        
+
         Detected {{ context.improvement_potential.length }} improvement opportunities:
         {{ context.improvement_potential | format_list }}
-        
+
         Which area should we focus on? Or enter custom goal:
-      timeout: 300  # 5 minutes for human response
+      timeout: 300 # 5 minutes for human response
       options:
         - "Improve all areas (full enhancement)"
         - "Focus on performance optimization"
@@ -180,14 +180,14 @@ tasks:
       prompt: |
         Repository context:
         {{ context | json_pretty }}
-        
+
         This repository appears stable. Generate 5 creative enhancement ideas that could:
         1. Add novel features
         2. Improve developer experience
         3. Enable new use cases
         4. Optimize for future trends
         5. Create market differentiation
-        
+
         Be bold and innovative. Think 10x improvements, not 10%.
       max_tokens: 2000
     timeout: 120
@@ -237,9 +237,9 @@ tasks:
         - "Synthesize diverse perspectives"
         - "Converge on actionable solutions"
       time_compression_mode: true
-      target_rounds: 50  # 50 rounds of 3-way conversation = 150 exchanges
+      target_rounds: 50 # 50 rounds of 3-way conversation = 150 exchanges
       auto_synthesize: true
-    timeout: 600  # 10 minutes human time = ~200 years AI time
+    timeout: 600 # 10 minutes human time = ~200 years AI time
     retry_policy:
       max_retries: 1
       backoff_strategy: none
@@ -285,7 +285,7 @@ tasks:
       prompt: |
         Party mode failed. Perform solo analysis of:
         {{ context | json_pretty }}
-        
+
         Generate:
         1. Key improvement opportunities
         2. Implementation priorities
@@ -316,7 +316,7 @@ tasks:
         - anti_patterns
         - innovation_opportunities
       confidence_threshold: 0.7
-      create_bmad_agents: true  # Auto-create agents from high-confidence patterns
+      create_bmad_agents: true # Auto-create agents from high-confidence patterns
     timeout: 120
     outputs:
       patterns: array
@@ -391,11 +391,11 @@ tasks:
         title: string
         description: string
         acceptance_criteria: array
-        estimated_complexity: number  # 1-10
+        estimated_complexity: number # 1-10
         dependencies: array
         tags: array
       prioritization_strategy: value_vs_effort
-      max_tasks: 20  # Don't overwhelm, focus on high-value
+      max_tasks: 20 # Don't overwhelm, focus on high-value
     timeout: 60
     outputs:
       tasks: array
@@ -417,12 +417,12 @@ tasks:
       prompt: |
         Generated {{ task_count }} implementation tasks.
         Estimated time: {{ estimated_total_time }}
-        
+
         Execution strategy:
         - High priority: {{ high_priority_count }} tasks
         - Medium priority: {{ medium_priority_count }} tasks
         - Low priority: {{ low_priority_count }} tasks
-        
+
         Proceed with execution?
         - "Execute all tasks"
         - "Execute high priority only"
@@ -483,7 +483,7 @@ tasks:
           max_retries: 2
           backoff_strategy: exponential
     parallel: true
-    timeout: 1800  # 30 minutes for all tasks
+    timeout: 1800 # 30 minutes for all tasks
     outputs:
       completed_tasks: array
       failed_tasks: array
@@ -528,7 +528,7 @@ tasks:
       report_format: detailed
     timeout: 600
     retry_policy:
-      max_retries: 0  # Don't retry validation, fix and re-run
+      max_retries: 0 # Don't retry validation, fix and re-run
     outputs:
       validation_results: object
       passed: boolean
@@ -697,20 +697,20 @@ tasks:
       message: |
         Experiment: {{ workflow.name }}
         Run ID: {{ workflow.run_id }}
-        
+
         Time Compression:
         - Human time: {{ bmad_party.outputs.time_metrics.human_time }}s
         - AI equivalent: {{ bmad_party.outputs.time_metrics.ai_equivalent_time }}
         - Compression ratio: {{ bmad_party.outputs.time_metrics.compression_ratio }}x
-        
+
         Results:
         - Patterns discovered: {{ analyze_party_outputs.outputs.patterns.length }}
         - New agents created: {{ register_new_agents.outputs.registered_agents.length | default: 0 }}
         - Tasks completed: {{ execute_tasks_parallel.outputs.completed_tasks.length }}
         - Validation: {{ validate_implementation.outputs.passed | yesno: "✅ PASSED,❌ FAILED" }}
-        
+
         Summary: {{ generate_summary.outputs.summary_path }}
-        
+
         "Si ya deux portes, je crée une 3e porte" ✨
       channels:
         - console
@@ -729,13 +729,13 @@ error_handlers:
     params:
       wait_time: exponential
       max_wait: 300
-  
+
   network_error:
     error_type: network_error
     action: retry
     params:
       max_retries: 3
-  
+
   timeout:
     error_type: timeout
     action: notify
@@ -752,7 +752,7 @@ hooks:
       params:
         message: "🌌 BMAD v2.0 Time Compression Workflow Started"
         level: info
-    
+
     - action: save_state
       params:
         key: workflow_start
@@ -760,13 +760,13 @@ hooks:
           timestamp: "{{ timestamp }}"
           run_id: "{{ workflow.run_id }}"
           parameters: "{{ parameters }}"
-  
+
   on_complete:
     - action: log
       params:
         message: "✅ Workflow completed successfully"
         level: info
-    
+
     - action: trigger_webhook
       params:
         url: "{{ env.COMPLETION_WEBHOOK_URL }}"
@@ -776,13 +776,13 @@ hooks:
           run_id: "{{ workflow.run_id }}"
           status: "success"
           metrics: "{{ bmad_party.outputs.time_metrics }}"
-  
+
   on_abort:
     - action: log
       params:
         message: "❌ Workflow aborted"
         level: error
-    
+
     - action: notification
       params:
         type: error

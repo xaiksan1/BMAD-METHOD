@@ -195,7 +195,15 @@
                 },
                 "transform": {
                   "type": "string",
-                  "enum": ["none", "json_parse", "json_stringify", "base64_encode", "base64_decode", "markdown_to_html", "extract_code_blocks"],
+                  "enum": [
+                    "none",
+                    "json_parse",
+                    "json_stringify",
+                    "base64_encode",
+                    "base64_decode",
+                    "markdown_to_html",
+                    "extract_code_blocks"
+                  ],
                   "default": "none"
                 }
               }
