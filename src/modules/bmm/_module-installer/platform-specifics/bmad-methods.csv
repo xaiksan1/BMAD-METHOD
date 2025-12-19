@@ -1,0 +1,3 @@
+method_id,method_name,description,category,file_path,line_number,type
+MTH-C929B8F9,install,No description,CODE_JAVASCRIPT,claude-code.js,13,FUNCTION
+MTH-097D3273,install,No description,CODE_JAVASCRIPT,windsurf.js,12,FUNCTION

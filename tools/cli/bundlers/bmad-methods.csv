@@ -1,0 +1,4 @@
+method_id,method_name,description,category,file_path,line_number,type
+MTH-9C8E6104,testAnalystBundle,No description,CODE_JAVASCRIPT,test-analyst.js,5,FUNCTION
+MTH-C9749A23,testWebBundler,No description,CODE_JAVASCRIPT,test-bundler.js,6,FUNCTION
+MTH-31C15941,WebBundler,Javascript Class/Contract,STRUCT_JAVASCRIPT,web-bundler.js,12,CLASS

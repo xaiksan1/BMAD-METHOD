@@ -1,0 +1,3 @@
+method_id,method_name,description,category,file_path,line_number,type
+MTH-163AE7A9,install,No description,CODE_JAVASCRIPT,installer.js,16,FUNCTION
+MTH-AF698929,configureForIDE,No description,CODE_JAVASCRIPT,installer.js,69,FUNCTION

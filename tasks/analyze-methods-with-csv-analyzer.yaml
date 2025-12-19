@@ -1,0 +1,367 @@
+# ⚡ BMAD Task: Analyze BMAD Methods with CSV AI Analyzer
+#
+# This task integrates csv-ai-analyzer into BMAD workflows
+# to provide intelligent visualization of discovered methods/patterns
+#
+# Usage: Add to workflow.yaml as a task or use as standalone
+# Example: bmad run analyze-methods-with-csv-analyzer
+
+task_name: analyze_methods_with_csv_analyzer
+task_id: analyze_methods_csv
+task_version: 1.0.0
+
+description: |
+  Analyze BMAD-generated methods catalog using CSV AI Analyzer.
+  Creates rich visualizations and AI-powered insights for discovered patterns.
+
+metadata:
+  author: BMAD System
+  tags:
+    - analysis
+    - visualization
+    - csv-ai-analyzer
+    - pattern-discovery
+    - architecture-insights
+  ecosystem: Alexandria/BMAD-METHOD
+  integrations:
+    - csv-ai-analyzer
+    - bmad-methods-catalog
+    - pattern-discovery-engine
+
+# ====================================================================
+# PHASE 1: GENERATE METHODS CATALOG
+# ====================================================================
+phases:
+  - id: generate_methods_catalog
+    name: Generate BMAD Methods Catalog
+    description: |
+      Run BMAD Dashboard to extract all methods from codebase.
+      Creates bmad-methods.csv as source for analysis.
+
+    actions:
+      - action: execute_command
+        description: "Run BMAD Dashboard"
+        command: "bash run-dashboard.sh"
+        cwd: "${BMAD_ROOT}/.bmad"
+        timeout: 120
+        on_success:
+          - log:
+              message: "Methods catalog generated: bmad-methods.csv"
+              level: info
+        on_failure:
+          - log:
+              message: "Failed to generate methods catalog"
+              level: error
+          - abort
+
+  # ====================================================================
+  # PHASE 2: ENRICH METHODS DATA
+  # ====================================================================
+  - id: enrich_methods_data
+    name: Enrich Methods Data with Metrics
+    description: |
+      Add complexity scores, impact assessment, and insights.
+      Generates enriched CSV and JSON report.
+
+    depends_on: generate_methods_catalog
+
+    actions:
+      - action: execute_python_script
+        description: "Run CSV enrichment"
+        script_path: "${BMAD_ROOT}/.bmad/enrich-bmad-csv.py"
+        args:
+          - "${BMAD_ROOT}/.bmad/bmad-methods.csv"
+        timeout: 60
+        outputs:
+          - path: "${BMAD_ROOT}/.bmad/bmad-methods-enriched.csv"
+            type: csv
+            description: "Enriched methods with metrics"
+          - path: "${BMAD_ROOT}/.bmad/bmad-analysis-report.json"
+            type: json
+            description: "Architecture analysis report"
+        on_success:
+          - log:
+              message: "Methods enriched with metrics"
+              level: info
+          - save_state:
+              key: enriched_csv_path
+              value: "${BMAD_ROOT}/.bmad/bmad-methods-enriched.csv"
+          - save_state:
+              key: analysis_report_path
+              value: "${BMAD_ROOT}/.bmad/bmad-analysis-report.json"
+        on_failure:
+          - log:
+              message: "CSV enrichment failed"
+              level: error
+
+  # ====================================================================
+  # PHASE 3: SETUP ANALYZER
+  # ====================================================================
+  - id: setup_csv_analyzer
+    name: Setup CSV AI Analyzer
+    description: |
+      Install dependencies and prepare analyzer for launch.
+      One-time setup (skipped if already done).
+
+    depends_on: enrich_methods_data
+    skip_if_exists: "${BMAD_ROOT}/.bmad/csv-ai-analyzer/node_modules"
+
+    actions:
+      - action: execute_command
+        description: "Install analyzer dependencies"
+        command: "pnpm install || npm install"
+        cwd: "${BMAD_ROOT}/.bmad/csv-ai-analyzer"
+        timeout: 300
+        on_success:
+          - log:
+              message: "CSV Analyzer dependencies installed"
+              level: info
+        on_failure:
+          - log:
+              message: "Failed to install dependencies"
+              level: warning
+
+  # ====================================================================
+  # PHASE 4: LAUNCH ANALYZER
+  # ====================================================================
+  - id: launch_csv_analyzer
+    name: Launch CSV AI Analyzer Web UI
+    description: |
+      Start the interactive analyzer at http://localhost:3000
+
+    depends_on: setup_csv_analyzer
+
+    actions:
+      - action: background_service
+        description: "Start analyzer web server"
+        service_name: csv-analyzer
+        command: "pnpm dev"
+        cwd: "${BMAD_ROOT}/.bmad/csv-ai-analyzer"
+        port: 3000
+        health_check:
+          url: "http://localhost:3000"
+          timeout: 30
+          retries: 5
+        on_success:
+          - log:
+              message: "CSV Analyzer running at http://localhost:3000"
+              level: info
+          - notification:
+              title: "CSV Analyzer Ready"
+              message: |
+                Analyzer started: http://localhost:3000
+
+                Next steps:
+                1. Open http://localhost:3000
+                2. Upload: bmad-methods-enriched.csv
+                3. Configure AI provider (Claude, OpenAI, etc.)
+                4. Run "Complete Analysis"
+              type: browser_open
+              url: "http://localhost:3000"
+
+  # ====================================================================
+  # PHASE 5: ANALYZE & GENERATE INSIGHTS
+  # ====================================================================
+  - id: generate_ai_insights
+    name: Generate AI-Powered Insights (Optional)
+    description: |
+      Use LLM to analyze enriched data and generate insights.
+      Only runs if AI configured, skipped otherwise.
+
+    depends_on: enrich_methods_data
+    skip_if: "!env.ANTHROPIC_API_KEY && !env.OPENAI_API_KEY"
+
+    actions:
+      - action: llm_analysis
+        description: "AI analysis of methods data"
+        model: "claude-3-opus"  # or configure via env
+        input_file: "${BMAD_ROOT}/.bmad/bmad-methods-enriched.csv"
+        analysis_prompts:
+          - "Summarize the architecture based on method distribution"
+          - "Identify critical functions and components"
+          - "Find refactoring opportunities"
+          - "Suggest architectural improvements"
+        output_file: "${BMAD_ROOT}/.bmad/ai-insights.md"
+        timeout: 300
+        on_success:
+          - save_state:
+              key: ai_insights_path
+              value: "${BMAD_ROOT}/.bmad/ai-insights.md"
+
+  # ====================================================================
+  # PHASE 6: GENERATE REPORTS
+  # ====================================================================
+  - id: generate_final_reports
+    name: Generate Final Analysis Reports
+    description: |
+      Create comprehensive reports combining all analysis results.
+
+    depends_on:
+      - enrich_methods_data
+      - generate_ai_insights
+
+    actions:
+      - action: template_render
+        description: "Generate HTML report"
+        template: "methods-analysis-report.html"
+        variables:
+          methods_csv: "${BMAD_ROOT}/.bmad/bmad-methods-enriched.csv"
+          analysis_report: "${BMAD_ROOT}/.bmad/bmad-analysis-report.json"
+          ai_insights: "${BMAD_ROOT}/.bmad/ai-insights.md"
+          timestamp: "{{ now }}"
+        output_file: "${BMAD_ROOT}/.bmad/ANALYSIS_REPORT.html"
+        timeout: 60
+        on_success:
+          - log:
+              message: "Report generated: ANALYSIS_REPORT.html"
+              level: info
+
+  # ====================================================================
+  # PHASE 7: UPDATE NOTION (Optional)
+  # ====================================================================
+  - id: update_notion_results
+    name: Update Notion with Analysis Results
+    description: |
+      Push analysis results to Notion for team tracking.
+      Only runs if NOTION_API_KEY configured.
+
+    depends_on: generate_final_reports
+    skip_if: "!env.NOTION_API_KEY"
+
+    actions:
+      - action: notion_api_call
+        description: "Create Notion page with results"
+        database_id: "${env.NOTION_ANALYSIS_DB}"
+        page_properties:
+          Name:
+            title: "BMAD Analysis: {{ timestamp }}"
+          Status:
+            select: "Complete"
+          Type:
+            select: "CSV Analysis"
+          Methods_Analyzed:
+            number: "{{ methods_count }}"
+          Complexity_Distribution:
+            rich_text: "{{ complexity_summary }}"
+        children:
+          - type: heading_2
+            text: "Analysis Results"
+          - type: paragraph
+            text: "{{ analysis_summary }}"
+          - type: code
+            language: json
+            text: "{{ analysis_report }}"
+        timeout: 60
+
+# ====================================================================
+# CONFIGURATION & VARIABLES
+# ====================================================================
+variables:
+  BMAD_ROOT: "${BMAD_ROOT:-/home/ichigo/alexandria/anima-mundi/defense/alexandria-core/_ARCHIVE_CHAOS}"
+  ANALYZER_PORT: "${ANALYZER_PORT:-3000}"
+  TIMEOUT_DASHBOARD: 120
+  TIMEOUT_ENRICHMENT: 60
+  TIMEOUT_ANALYZER_SETUP: 300
+  TIMEOUT_ANALYSIS: 300
+
+environment_variables:
+  ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY}"
+  OPENAI_API_KEY: "${OPENAI_API_KEY}"
+  NOTION_API_KEY: "${NOTION_API_KEY}"
+  NOTION_ANALYSIS_DB: "${NOTION_ANALYSIS_DB}"
+
+# ====================================================================
+# EXECUTION OPTIONS
+# ====================================================================
+execution_modes:
+  # Full analysis with UI
+  full:
+    description: "Generate → Enrich → Launch Analyzer → Insights"
+    phases: all
+    interactive: true
+
+  # Batch analysis without UI
+  batch:
+    description: "Generate → Enrich → AI Analysis → Reports"
+    phases:
+      - generate_methods_catalog
+      - enrich_methods_data
+      - generate_ai_insights
+      - generate_final_reports
+    interactive: false
+
+  # Quick check
+  quick:
+    description: "Just generate and enrich CSV"
+    phases:
+      - generate_methods_catalog
+      - enrich_methods_data
+    interactive: false
+
+# ====================================================================
+# OUTPUT FILES
+# ====================================================================
+outputs:
+  - type: csv
+    path: "bmad-methods.csv"
+    description: "Raw methods catalog"
+
+  - type: csv
+    path: "bmad-methods-enriched.csv"
+    description: "Enhanced with metrics and scores"
+
+  - type: json
+    path: "bmad-analysis-report.json"
+    description: "Architecture insights and statistics"
+
+  - type: markdown
+    path: "ai-insights.md"
+    description: "AI-generated analysis and recommendations"
+
+  - type: html
+    path: "ANALYSIS_REPORT.html"
+    description: "Interactive HTML report"
+
+# ====================================================================
+# HOOKS & LIFECYCLE
+# ====================================================================
+hooks:
+  on_start:
+    - log:
+        message: "🚀 Starting BMAD Methods Analysis"
+        level: info
+
+  on_complete:
+    - log:
+        message: "✅ Analysis complete"
+        level: info
+    - notification:
+        title: "Analysis Complete"
+        message: "Methods catalog analyzed and visualized"
+        type: desktop
+
+  on_failure:
+    - log:
+        message: "❌ Analysis failed at phase: {{ current_phase }}"
+        level: error
+
+# ====================================================================
+# INTEGRATION NOTES
+# ====================================================================
+#
+# This task integrates csv-ai-analyzer into BMAD workflows:
+#
+# 1. AS STANDALONE TASK:
+#    bmad run analyze-methods-with-csv-analyzer
+#
+# 2. IN EXISTING WORKFLOW:
+#    Add this task ID to your workflow.yaml and chain it
+#
+# 3. WITH CUSTOM PARAMETERS:
+#    bmad run analyze-methods-with-csv-analyzer --mode=batch
+#
+# 4. IN PARTY MODE:
+#    Let multiple LLMs analyze the enriched CSV simultaneously
+#
+# The analyzer integrates seamlessly with BMAD's pattern
+# discovery engine and agent generation system.

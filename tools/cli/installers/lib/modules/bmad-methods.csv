@@ -1,0 +1,3 @@
+method_id,method_name,description,category,file_path,line_number,type
+MTH-111ABB4E,ModuleManager,Javascript Class/Contract,STRUCT_JAVASCRIPT,manager.js,24,CLASS
+MTH-3C6D2234,configToRead,Try to read module config for metadata (prefer new location),CODE_JAVASCRIPT,manager.js,126,FUNCTION

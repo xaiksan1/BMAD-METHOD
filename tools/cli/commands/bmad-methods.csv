@@ -1,0 +1,7 @@
+method_id,method_name,description,category,file_path,line_number,type
+MTH-0024A154,findClaudeDir,No description,CODE_JAVASCRIPT,build.js,12,FUNCTION
+MTH-1DA4350B,buildAgent,No description,CODE_JAVASCRIPT,build.js,80,FUNCTION
+MTH-707909A8,buildAllAgents,No description,CODE_JAVASCRIPT,build.js,165,FUNCTION
+MTH-08A0B0B2,checkBuildStatus,No description,CODE_JAVASCRIPT,build.js,274,FUNCTION
+MTH-DAE61067,checkIfNeedsRebuild,No description,CODE_JAVASCRIPT,build.js,366,FUNCTION
+MTH-9D7110DD,listAvailableAgents,No description,CODE_JAVASCRIPT,build.js,408,FUNCTION

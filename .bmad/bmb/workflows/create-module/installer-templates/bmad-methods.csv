@@ -1,0 +1,12 @@
+method_id,method_name,description,category,file_path,line_number,type
+MTH-9CD5ADBF,installModule,No description,CODE_JAVASCRIPT,installer.js,16,FUNCTION
+MTH-64AC7347,validateEnvironment,No description,CODE_JAVASCRIPT,installer.js,51,FUNCTION
+MTH-13905957,setupConfigurations,No description,CODE_JAVASCRIPT,installer.js,72,FUNCTION
+MTH-5E967CF5,initializeFeatures,No description,CODE_JAVASCRIPT,installer.js,101,FUNCTION
+MTH-D3A37C97,initializeDataFeatures,No description,CODE_JAVASCRIPT,installer.js,137,FUNCTION
+MTH-745A4D27,initializeAutomationFeatures,No description,CODE_JAVASCRIPT,installer.js,145,FUNCTION
+MTH-D2DD1052,initializeIntegrationFeatures,No description,CODE_JAVASCRIPT,installer.js,153,FUNCTION
+MTH-4E4E28FC,runPostInstallTasks,No description,CODE_JAVASCRIPT,installer.js,161,FUNCTION
+MTH-9D8E29ED,initDatabase,No description,CODE_JAVASCRIPT,installer.js,177,FUNCTION
+MTH-5FA62B1F,generateSamples,No description,CODE_JAVASCRIPT,installer.js,189,FUNCTION
+MTH-7C536C81,uninstallModule,No description,CODE_JAVASCRIPT,installer.js,204,FUNCTION

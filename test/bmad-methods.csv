@@ -1,0 +1,10 @@
+method_id,method_name,description,category,file_path,line_number,type
+MTH-8D5C2B0E,parseTestMetadata,No description,CODE_JAVASCRIPT,test-agent-schema.js,33,FUNCTION
+MTH-B26B27A6,parsePathString,No description,CODE_JAVASCRIPT,test-agent-schema.js,101,FUNCTION
+MTH-DA7BE2DB,validateError,No description,CODE_JAVASCRIPT,test-agent-schema.js,117,FUNCTION
+MTH-428722E0,actualKeys,No description,CODE_JAVASCRIPT,test-agent-schema.js,159,FUNCTION
+MTH-67D92A61,runTest,No description,CODE_JAVASCRIPT,test-agent-schema.js,176,FUNCTION
+MTH-F80D6279,main,No description,CODE_JAVASCRIPT,test-agent-schema.js,297,FUNCTION
+MTH-437C3165,cleanup,No description,CODE_SHELL,test-cli-integration.sh,25,FUNCTION
+MTH-C50E58C4,assert,No description,CODE_JAVASCRIPT,test-installation-components.js,35,FUNCTION
+MTH-AEA5FF0D,runTests,No description,CODE_JAVASCRIPT,test-installation-components.js,51,FUNCTION

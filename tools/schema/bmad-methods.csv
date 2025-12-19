@@ -1,0 +1,11 @@
+method_id,method_name,description,category,file_path,line_number,type
+MTH-91E2DA65,validateAgentFile,No description,CODE_JAVASCRIPT,agent.js,18,FUNCTION
+MTH-FACFFA52,agentSchema,No description,CODE_JAVASCRIPT,agent.js,37,FUNCTION
+MTH-78D23F2B,buildAgentSchema,No description,CODE_JAVASCRIPT,agent.js,83,FUNCTION
+MTH-EF0B9253,buildMetadataSchema,No description,CODE_JAVASCRIPT,agent.js,100,FUNCTION
+MTH-8A66339F,buildPersonaSchema,No description,CODE_JAVASCRIPT,agent.js,140,FUNCTION
+MTH-41FACAD0,buildPromptSchema,No description,CODE_JAVASCRIPT,agent.js,156,FUNCTION
+MTH-A6605E3C,buildMenuItemSchema,No description,CODE_JAVASCRIPT,agent.js,171,FUNCTION
+MTH-129AFF67,deriveModuleFromPath,No description,CODE_JAVASCRIPT,agent.js,208,FUNCTION
+MTH-68807C5C,normalizeModuleOption,No description,CODE_JAVASCRIPT,agent.js,223,FUNCTION
+MTH-8AC54370,createNonEmptyString,No description,CODE_JAVASCRIPT,agent.js,234,FUNCTION

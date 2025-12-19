@@ -1,0 +1,12 @@
+method_id,method_name,description,category,file_path,line_number,type
+MTH-B07C37FE,AgentCommandGenerator,Javascript Class/Contract,STRUCT_JAVASCRIPT,agent-command-generator.js,9,CLASS
+MTH-53BC5C3F,getAgentsFromBmad,No description,CODE_JAVASCRIPT,bmad-artifacts.js,8,FUNCTION
+MTH-8AE39F67,getTasksFromBmad,No description,CODE_JAVASCRIPT,bmad-artifacts.js,59,FUNCTION
+MTH-94285740,getAgentsFromDir,No description,CODE_JAVASCRIPT,bmad-artifacts.js,79,FUNCTION
+MTH-D5D7BEA1,getTasksFromDir,No description,CODE_JAVASCRIPT,bmad-artifacts.js,114,FUNCTION
+MTH-13AC06D9,loadModuleInjectionConfig,No description,CODE_JAVASCRIPT,module-injections.js,7,FUNCTION
+MTH-5AFD34B6,shouldApplyInjection,No description,CODE_JAVASCRIPT,module-injections.js,26,FUNCTION
+MTH-8F4BC1BB,filterAgentInstructions,No description,CODE_JAVASCRIPT,module-injections.js,56,FUNCTION
+MTH-D06EBDB4,resolveSubagentFiles,No description,CODE_JAVASCRIPT,module-injections.js,92,FUNCTION
+MTH-82890C37,TaskToolCommandGenerator,Javascript Class/Contract,STRUCT_JAVASCRIPT,task-tool-command-generator.js,9,CLASS
+MTH-BC167169,WorkflowCommandGenerator,Javascript Class/Contract,STRUCT_JAVASCRIPT,workflow-command-generator.js,9,CLASS

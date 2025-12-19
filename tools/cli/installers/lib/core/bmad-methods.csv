@@ -1,0 +1,15 @@
+method_id,method_name,description,category,file_path,line_number,type
+MTH-D2D6E7D7,ConfigCollector,Javascript Class/Contract,STRUCT_JAVASCRIPT,config-collector.js,9,CLASS
+MTH-A4613166,DependencyResolver,Javascript Class/Contract,STRUCT_JAVASCRIPT,dependency-resolver.js,11,CLASS
+MTH-71F78BE6,Detector,Javascript Class/Contract,STRUCT_JAVASCRIPT,detector.js,6,CLASS
+MTH-FCBB2F61,existsCaseSensitive,Helper: check existence of a nested path with case-sensitive segment matching,CODE_JAVASCRIPT,detector.js,209,FUNCTION
+MTH-8C564DDF,isV6Installation,Helper: check if a directory is a V6+ installation,CODE_JAVASCRIPT,detector.js,229,FUNCTION
+MTH-6EBB0257,IdeConfigManager,Javascript Class/Contract,STRUCT_JAVASCRIPT,ide-config-manager.js,9,CLASS
+MTH-D2069307,Installer,Javascript Class/Contract,STRUCT_JAVASCRIPT,installer.js,21,CLASS
+MTH-645A9A25,validIdesForDocs,Copy IDE-specific documentation (only for valid IDEs),CODE_JAVASCRIPT,installer.js,715,FUNCTION
+MTH-D3558D88,scanDirectory,Recursively scan bmadDir for all files,CODE_JAVASCRIPT,installer.js,1979,FUNCTION
+MTH-7191C732,ManifestGenerator,Javascript Class/Contract,STRUCT_JAVASCRIPT,manifest-generator.js,13,CLASS
+MTH-BD9AB242,findWorkflows,Recursively find workflow.yaml files,CODE_JAVASCRIPT,manifest-generator.js,119,FUNCTION
+MTH-200208E9,cleanForCSV,Helper function to clean and escape CSV content,CODE_JAVASCRIPT,manifest-generator.js,251,FUNCTION
+MTH-0C53A441,Manifest,Javascript Class/Contract,STRUCT_JAVASCRIPT,manifest.js,5,CLASS
+MTH-72A5CD8C,manifest,No description,CODE_JAVASCRIPT,manifest.js,82,FUNCTION

@@ -1,0 +1,18 @@
+method_id,method_name,description,category,file_path,line_number,type
+MTH-272EEB7A,BaseIdeSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,_base-ide.js,11,CLASS
+MTH-793D6EBD,AuggieSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,auggie.js,10,CLASS
+MTH-0F22F586,ClaudeCodeSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,claude-code.js,19,CLASS
+MTH-69E7C732,ClineSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,cline.js,13,CLASS
+MTH-DA500E2B,CodexSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,codex.js,13,CLASS
+MTH-1AA059FD,CrushSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,crush.js,10,CLASS
+MTH-1FEFE5CE,CursorSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,cursor.js,9,CLASS
+MTH-EA43B957,GeminiSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,gemini.js,12,CLASS
+MTH-E00098E4,GitHubCopilotSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,github-copilot.js,11,CLASS
+MTH-7464C6C4,IFlowSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,iflow.js,10,CLASS
+MTH-EEEC9AF8,KiloSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,kilo.js,10,CLASS
+MTH-0EC3E421,IdeManager,Javascript Class/Contract,STRUCT_JAVASCRIPT,manager.js,9,CLASS
+MTH-586093CE,OpenCodeSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,opencode.js,14,CLASS
+MTH-28F0C637,QwenSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,qwen.js,11,CLASS
+MTH-8C675BDF,RooSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,roo.js,10,CLASS
+MTH-1C559F76,TraeSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,trae.js,9,CLASS
+MTH-5D35C590,WindsurfSetup,Javascript Class/Contract,STRUCT_JAVASCRIPT,windsurf.js,9,CLASS

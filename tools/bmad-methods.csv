@@ -1,0 +1,6 @@
+method_id,method_name,description,category,file_path,line_number,type
+MTH-3EB26867,WorkflowFormatter,Javascript Class/Contract,STRUCT_JAVASCRIPT,format-workflow-md.js,14,CLASS
+MTH-73F8F919,main,No description,CODE_JAVASCRIPT,format-workflow-md.js,193,FUNCTION
+MTH-28A823AC,main,No description,CODE_JAVASCRIPT,validate-agent-schema.js,24,FUNCTION
+MTH-4388B430,validateXmlFile,No description,CODE_JAVASCRIPT,validate-bundles.js,7,FUNCTION
+MTH-CD12BFDA,validateAllBundles,No description,CODE_JAVASCRIPT,validate-bundles.js,20,FUNCTION

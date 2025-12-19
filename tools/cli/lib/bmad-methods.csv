@@ -1,0 +1,31 @@
+method_id,method_name,description,category,file_path,line_number,type
+MTH-7751C865,ActivationBuilder,Javascript Class/Contract,STRUCT_JAVASCRIPT,activation-builder.js,8,CLASS
+MTH-4126F661,AgentAnalyzer,Javascript Class/Contract,STRUCT_JAVASCRIPT,agent-analyzer.js,7,CLASS
+MTH-BD0502D6,Config,Javascript Class/Contract,STRUCT_JAVASCRIPT,config.js,8,CLASS
+MTH-6409219E,FileOps,Javascript Class/Contract,STRUCT_JAVASCRIPT,file-ops.js,8,CLASS
+MTH-BF26C534,walk,No description,CODE_JAVASCRIPT,file-ops.js,89,FUNCTION
+MTH-327CEF5A,PlatformCodes,Javascript Class/Contract,STRUCT_JAVASCRIPT,platform-codes.js,10,CLASS
+MTH-31E34591,findProjectRoot,No description,CODE_JAVASCRIPT,project-root.js,8,FUNCTION
+MTH-B7F4F50B,getProjectRoot,No description,CODE_JAVASCRIPT,project-root.js,42,FUNCTION
+MTH-5B232B30,getSourcePath,No description,CODE_JAVASCRIPT,project-root.js,52,FUNCTION
+MTH-35AEA72F,getModulePath,No description,CODE_JAVASCRIPT,project-root.js,59,FUNCTION
+MTH-2D844CA3,replacePlaceholdersInFile,No description,CODE_JAVASCRIPT,replace-project-root.js,17,FUNCTION
+MTH-D239921E,replaceProjectRootInFile,No description,CODE_JAVASCRIPT,replace-project-root.js,64,FUNCTION
+MTH-8A5A71E7,replacePlaceholdersInDirectory,No description,CODE_JAVASCRIPT,replace-project-root.js,78,FUNCTION
+MTH-E95E42A7,processDirectory,No description,CODE_JAVASCRIPT,replace-project-root.js,92,FUNCTION
+MTH-A82FF6D6,replaceProjectRootInDirectory,No description,CODE_JAVASCRIPT,replace-project-root.js,131,FUNCTION
+MTH-C9CF20ED,replacePlaceholdersInFiles,No description,CODE_JAVASCRIPT,replace-project-root.js,143,FUNCTION
+MTH-AC286139,replaceProjectRootInFiles,No description,CODE_JAVASCRIPT,replace-project-root.js,169,FUNCTION
+MTH-6CD80158,processInstallation,No description,CODE_JAVASCRIPT,replace-project-root.js,181,FUNCTION
+MTH-6E664D68,processBundleRemoval,No description,CODE_JAVASCRIPT,replace-project-root.js,214,FUNCTION
+MTH-AA9CFD94,UI,Javascript Class/Contract,STRUCT_JAVASCRIPT,ui.js,11,CLASS
+MTH-E0CEA2E3,XmlHandler,Javascript Class/Contract,STRUCT_JAVASCRIPT,xml-handler.js,11,CLASS
+MTH-DB0FC703,convertXmlToMarkdown,No description,CODE_JAVASCRIPT,xml-to-markdown.js,4,FUNCTION
+MTH-F3EA21A4,main,No description,CODE_JAVASCRIPT,xml-to-markdown.js,54,FUNCTION
+MTH-339B83FE,initializeModules,Initialize ES modules,CODE_JAVASCRIPT,yaml-format.js,10,FUNCTION
+MTH-4FBB1A40,formatYamlContent,No description,CODE_JAVASCRIPT,yaml-format.js,21,FUNCTION
+MTH-0DE5AEFE,processMarkdownFile,No description,CODE_JAVASCRIPT,yaml-format.js,76,FUNCTION
+MTH-EF44F1E5,processYamlFile,No description,CODE_JAVASCRIPT,yaml-format.js,128,FUNCTION
+MTH-3368EE3A,lintYamlFile,No description,CODE_JAVASCRIPT,yaml-format.js,144,FUNCTION
+MTH-8D15CA9E,main,No description,CODE_JAVASCRIPT,yaml-format.js,157,FUNCTION
+MTH-37B76EB5,YamlXmlBuilder,Javascript Class/Contract,STRUCT_JAVASCRIPT,yaml-xml-builder.js,11,CLASS
