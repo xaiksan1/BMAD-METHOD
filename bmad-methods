@@ -1,0 +1,130 @@
+#!/bin/bash
+
+# BMAD Methods Library CLI Wrapper
+# Convenient interface for querying the consolidated methods library
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TOOLS_DIR="$SCRIPT_DIR/tools"
+QUERY_TOOL="$TOOLS_DIR/query-methods.py"
+
+# Check if query tool exists
+if [ ! -f "$QUERY_TOOL" ]; then
+    echo "❌ Error: Query tool not found at $QUERY_TOOL"
+    exit 1
+fi
+
+# Show help
+show_help() {
+    cat << 'EOF'
+BMAD Methods Library Query Tool
+
+Usage:
+  bmad-methods [command] [options]
+
+Commands:
+  search <keyword>      Search methods by keyword
+  category <name>       Filter by category
+  mode <mode>          Filter by execution mode
+  module <name>        Filter by module/file
+  get <method-id>      Get specific method details
+  stats                Show library statistics
+  help                 Show this help message
+
+Options:
+  --limit <n>          Limit results (default: 50)
+  --full               Show full method details
+
+Examples:
+  # Search for methods
+  ./bmad-methods search "analyze"
+  ./bmad-methods search "deploy" --limit 100 --full
+
+  # Filter by category
+  ./bmad-methods category CODE_PYTHON
+  ./bmad-methods category STRUCT_JAVASCRIPT --limit 20
+
+  # Filter by execution mode
+  ./bmad-methods mode quick
+  ./bmad-methods mode batch --full
+
+  # Filter by module
+  ./bmad-methods module "utils.py"
+  ./bmad-methods module "index.ts" --limit 30
+
+  # Get specific method
+  ./bmad-methods get MTH-F7E621F8 --full
+
+  # Show statistics
+  ./bmad-methods stats
+
+EOF
+}
+
+# Parse arguments
+if [ $# -eq 0 ]; then
+    show_help
+    exit 0
+fi
+
+command="$1"
+shift
+
+case "$command" in
+    search)
+        if [ $# -eq 0 ]; then
+            echo "Usage: bmad-methods search <keyword> [--limit <n>] [--full]"
+            exit 1
+        fi
+        keyword="$1"
+        shift
+        python3 "$QUERY_TOOL" --search "$keyword" "$@"
+        ;;
+    category)
+        if [ $# -eq 0 ]; then
+            echo "Usage: bmad-methods category <name> [--limit <n>] [--full]"
+            exit 1
+        fi
+        category="$1"
+        shift
+        python3 "$QUERY_TOOL" --category "$category" "$@"
+        ;;
+    mode)
+        if [ $# -eq 0 ]; then
+            echo "Usage: bmad-methods mode <mode> [--limit <n>] [--full]"
+            exit 1
+        fi
+        mode="$1"
+        shift
+        python3 "$QUERY_TOOL" --mode "$mode" "$@"
+        ;;
+    module)
+        if [ $# -eq 0 ]; then
+            echo "Usage: bmad-methods module <name> [--limit <n>] [--full]"
+            exit 1
+        fi
+        module="$1"
+        shift
+        python3 "$QUERY_TOOL" --module "$module" "$@"
+        ;;
+    get)
+        if [ $# -eq 0 ]; then
+            echo "Usage: bmad-methods get <method-id> [--full]"
+            exit 1
+        fi
+        method_id="$1"
+        shift
+        python3 "$QUERY_TOOL" --method-id "$method_id" "$@"
+        ;;
+    stats)
+        python3 "$QUERY_TOOL" --stats
+        ;;
+    help)
+        show_help
+        ;;
+    *)
+        echo "Unknown command: $command"
+        echo ""
+        show_help
+        exit 1
+        ;;
+esac
